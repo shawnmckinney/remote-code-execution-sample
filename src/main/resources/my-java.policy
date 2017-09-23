@@ -1,0 +1,63 @@
+// policy file for serial exploit sample
+
+
+// This sample program's permissions:
+grant codeBase "file:/home/smckinn/Development/serial-exploit-sample/-" {
+    permission java.io.FilePermission "object.ser", "write";
+    permission java.io.FilePermission "object.ser", "read";
+    permission java.io.FilePermission "./src/main/resources/hacker-scripts.sh", "execute";
+};
+
+// Your IDE gets configured here:
+grant codeBase "file:/home/smckinn/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
+  //permission java.security.AllPermission;
+  permission java.util.PropertyPermission "*", "read";
+  permission java.lang.RuntimePermission "*";
+  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+  permission java.io.FilePermission "object.ser", "write";
+  permission java.io.FilePermission "object.ser", "read";
+  permission java.io.FilePermission "/home/smckinn/Development/serial-exploit-sample/-", "execute";
+  permission java.net.SocketPermission "localhost:*", "listen,resolve";
+};
+
+
+// default permissions granted to all domains
+grant {
+        // Allows any thread to stop itself using the java.lang.Thread.stop()
+        // method that takes no argument.
+        // Note that this permission is granted by default only to remain
+        // backwards compatible.
+        // It is strongly recommended that you either remove this permission
+        // from this policy file or further restrict it to code sources
+        // that you specify, because Thread.stop() is potentially unsafe.
+        // See the API specification of java.lang.Thread.stop() for more
+        // information.
+        permission java.lang.RuntimePermission "stopThread";
+
+        // allows anyone to listen on dynamic ports
+        permission java.net.SocketPermission "localhost:0", "listen";
+
+        // "standard" properies that can be read by anyone
+
+        permission java.util.PropertyPermission "java.version", "read";
+        permission java.util.PropertyPermission "java.vendor", "read";
+        permission java.util.PropertyPermission "java.vendor.url", "read";
+        permission java.util.PropertyPermission "java.class.version", "read";
+        permission java.util.PropertyPermission "os.name", "read";
+        permission java.util.PropertyPermission "os.version", "read";
+        permission java.util.PropertyPermission "os.arch", "read";
+        permission java.util.PropertyPermission "file.separator", "read";
+        permission java.util.PropertyPermission "path.separator", "read";
+        permission java.util.PropertyPermission "line.separator", "read";
+
+        permission java.util.PropertyPermission "java.specification.version", "read";
+        permission java.util.PropertyPermission "java.specification.vendor", "read";
+        permission java.util.PropertyPermission "java.specification.name", "read";
+
+        permission java.util.PropertyPermission "java.vm.specification.version", "read";
+        permission java.util.PropertyPermission "java.vm.specification.vendor", "read";
+        permission java.util.PropertyPermission "java.vm.specification.name", "read";
+        permission java.util.PropertyPermission "java.vm.version", "read";
+        permission java.util.PropertyPermission "java.vm.vendor", "read";
+        permission java.util.PropertyPermission "java.vm.name", "read";
+};
