@@ -2,16 +2,23 @@
 
 
 // The sample program's permissions:
-grant codeBase "file:/home/smckinn/Development/serial-exploit-sample/-" {
+grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+
     // Serializing to file req's write access:
     permission java.io.FilePermission "object.ser", "write";
+
     // Deserializing from file req's read access:
     permission java.io.FilePermission "object.ser", "read";
-    permission java.io.FilePermission "./src/main/resources/hacker-scripts.sh", "execute";
-    permission java.util.PropertyPermission "user.dir", "read";
+
+    // must specifically allow file to execute:
+    permission java.io.FilePermission "./src/main/resources/hacker-script.sh", "execute";
+
+    // to read the file location:
+    permission java.util.PropertyPermission "serial-exploit-sh", "read";
+    permission java.util.PropertyPermission "user.home", "read";
 };
 
-// Optional: Your IDE gets configured here:
+// Optional: If running from IDE, gets configured here...
 grant codeBase "file:/home/smckinn/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
   //permission java.security.AllPermission;
   permission java.util.PropertyPermission "*", "read";
