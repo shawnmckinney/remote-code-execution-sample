@@ -1,14 +1,17 @@
 // policy file for serial exploit sample
 
 
-// This sample program's permissions:
+// The sample program's permissions:
 grant codeBase "file:/home/smckinn/Development/serial-exploit-sample/-" {
+    // Serializing to file req's write access:
     permission java.io.FilePermission "object.ser", "write";
+    // Deserializing from file req's read access:
     permission java.io.FilePermission "object.ser", "read";
     permission java.io.FilePermission "./src/main/resources/hacker-scripts.sh", "execute";
+    permission java.util.PropertyPermission "user.dir", "read";
 };
 
-// Your IDE gets configured here:
+// Optional: Your IDE gets configured here:
 grant codeBase "file:/home/smckinn/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
   //permission java.security.AllPermission;
   permission java.util.PropertyPermission "*", "read";
@@ -16,8 +19,8 @@ grant codeBase "file:/home/smckinn/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" 
   permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
   permission java.io.FilePermission "object.ser", "write";
   permission java.io.FilePermission "object.ser", "read";
-  permission java.io.FilePermission "/home/smckinn/Development/serial-exploit-sample/-", "execute";
   permission java.net.SocketPermission "localhost:*", "listen,resolve";
+  permission java.io.FilePermission "<<ALL FILES>>", "execute";
 };
 
 

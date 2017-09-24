@@ -15,7 +15,7 @@ public class App
     {
         System.out.println( "Begin serial exploit test...." );
         App myApp = new App();
-        MySystem ms = new MySystem();
+        BadCode ms = new BadCode();
         ms.address = "foo";
         ms.name = "fighters";
 
@@ -23,7 +23,7 @@ public class App
         myApp.deserialize();
     }
 
-    public void serialize(MySystem e)
+    public void serialize(BadCode e)
     {
         try
         {
@@ -32,7 +32,7 @@ public class App
             out.writeObject( e );
             out.close();
             fileOut.close();
-            System.out.printf( "Serialized data is saved in ./employee.ser" );
+            System.out.println( "Serialized data is saved in ./employee.ser" );
         }
         catch ( IOException i )
         {
@@ -52,7 +52,7 @@ public class App
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             //Read the object from the data stream, and convert it back to a String
-            MySystem objectFromDisk = (MySystem)ois.readObject();
+            BadCode objectFromDisk = (BadCode )ois.readObject();
 
             //Print the result.
             System.out.println(objectFromDisk.name);
