@@ -91,6 +91,8 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 8. Now change the policy.  Edit my-java.policy, comment out the permission to allow the script to execute:
 
  ```
+ vi src/main/resources/my-java.policy
+ ...
  grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
  // must specifically allow file to execute:
  //permission java.io.FilePermission "./src/main/resources/hacker-script.sh", "execute";
