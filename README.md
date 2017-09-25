@@ -34,7 +34,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  Result: foo fighters!
  ```
 
-4. Examine the files in root folder:
+4. Examine the files in package:
  ```
  myuser@ubuntu:~/Development/serial-exploit-sample$ ls
  total 32
