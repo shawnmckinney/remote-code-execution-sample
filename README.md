@@ -171,9 +171,26 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  ...
  ```
 
- There are tons of useful forensic information in this output.  Take the time to understand all of the system and file commands your program is invoking. It will help you understand the req's to secure it.
+ There's tons of useful forensic information contained within this output.  Take the time to understand all of the commands your program is invoking. It'll help you understand the req's to secure it.
 
- 12. One more thing.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
+ 13. To run inside IDE (optional) - if you are running inside of an integrated development environment like eclipse, netbeans or intellij, add additional codebase to my-java.policy:
+
+ ```
+ // Optionally, If running from an IDE, gets configured something like this.... (for intellij):
+ grant codeBase "file:${user.home}/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
+   //permission java.security.AllPermission;
+   permission java.util.PropertyPermission "*", "read";
+   permission java.lang.RuntimePermission "*";
+   permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+   permission java.io.FilePermission "myObject.ser", "write";
+   permission java.io.FilePermission "myObject.ser", "read";
+   permission java.net.SocketPermission "localhost:*", "listen,resolve";
+   permission java.io.FilePermission "<<ALL FILES>>", "execute";
+ };
+
+ ```
+
+ 14. Parting thoughts.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
 
  ```
  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
