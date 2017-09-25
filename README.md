@@ -115,9 +115,9 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  Input: duke moscone center
  Serialized data is saved in myObject.ser
  BadCode will now run hacker script
- user.home=/home/smckinn
- execute hacker command=/home/smckinn/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
- Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "/home/smckinn/Development/serial-exploit-sample/src/main/resources/hacker-script.sh" "execute")
+ user.home=/home/myuser
+ execute hacker command=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
+ Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh" "execute")
 	at java.security.AccessControlContext.checkPermission(AccessControlContext.java:472)
 	at java.security.AccessController.checkPermission(AccessController.java:884)
 	at jav
@@ -134,10 +134,10 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  Input: duke moscone center
  Serialized data is saved in myObject.ser
  BadCode will now run hacker script
- user.home=/home/smckinn
- execute hacker command=/home/smckinn/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
- ERROR: serialize caught IOException=java.io.IOException: Cannot run program "/home/smckinn/Development/serial-exploit-sample/src/main/resources/hacker-script.sh"
- Exception in thread "main" java.lang.RuntimeException: serialize caught IOException=java.io.IOException: Cannot run program "/home/smckinn/Development/serial-exploit-sample/src/main/resources/hacker-script.sh"
+ user.home=/home/myuser
+ execute hacker command=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
+ ERROR: serialize caught IOException=java.io.IOException: Cannot run program "/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh"
+ Exception in thread "main" java.lang.RuntimeException: serialize caught IOException=java.io.IOException: Cannot run program "/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh"
  	at com.example.App.deserialize(App.java:67)
  	at com.example.App.main(App.java:26)
  ```
