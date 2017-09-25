@@ -17,7 +17,7 @@ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
   permission java.util.PropertyPermission "user.home", "read";
 };
 
-// Optional: If running from IDE, gets configured here...
+// Optionally, If running from an IDE, gets configured something like this...
 grant codeBase "file:${user.home}/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
   //permission java.security.AllPermission;
   permission java.util.PropertyPermission "*", "read";
