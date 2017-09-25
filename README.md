@@ -81,7 +81,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 	at jav
  ```
 
- The rogue program cannot execute a system command if that specific permission ha```s not been granted to the codebase.
+ The rogue program cannot execute a system command if that specific permission hasn't been added to its codebase in the java.policy.
 
 9. Now reenable the permission in my-java.policy but remove the unix file permission to execute, rerun program.
 
