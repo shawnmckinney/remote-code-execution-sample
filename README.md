@@ -1,7 +1,36 @@
 # serial-exploit-sample
 Example shows how to use the Java Security Manager to prevent Java serialization exploits.
 
-1. edit my-java.policy file
+# Intro to the Problem
+
+ * The Problem, Equifax Breach, 143 million Americans’ personal info, including names, addresses, dates of birth and SSNs compromised.
+ * Only a veneer of security in place.
+
+# The Exploit
+
+ * The vulnerability was Apache Struts, CVE-2017.
+ * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
+
+# How Does It Work?
+
+ * Input data deserialized into an executable object with privilege.
+ * http://blog.diniscruz.com/2013/12/xstream
+
+# The Solution
+
+ * Of course you need to ensure all appropriate patches are installed to cover known defects.
+ * But what about unknown defects?
+ * Employ mandatory access controls like Java Security Manager to your runtime environment.
+
+# Instructions
+
+1. Clone the serial-exploit-sample
+
+ ```
+ git clone https://github.com/shawnmckinney/serial-exploit-sample.git
+ ```
+
+2. edit my-java.policy file
 
  * Point the codebase to the root folder of where you installed the project source:
 
@@ -9,7 +38,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
  ```
 
-2. Build and run the test program.  Make sure the -Dserial-exploit-sh points to the correct folder on your machine:
+3. Build and run the test program.  Make sure the -Dserial-exploit-sh points to the correct folder on your machine:
 
  ```
  mvn clean install
@@ -20,7 +49,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
       com.example.App
  ```
 
-3. Examine the program output.
+4. Examine the program output.
 
  ```
  Begin serial exploit test....
@@ -33,7 +62,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  Result: foo fighters!
  ```
 
-4. Examine the files in package:
+5. Examine the files in package:
  ```
  myuser@ubuntu:~/Development/serial-exploit-sample$ ls
  total 32
@@ -46,7 +75,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  YouveBeenHacked             <--- this file is new but should not be here.
  ```
 
-5. View the contents of YouveBeenHacked:
+6. View the contents of YouveBeenHacked:
 
  ```
  myuser@ubuntu:~/Development/serial-exploit-sample$ cat YouveBeenHacked
@@ -55,9 +84,9 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  ...
  ```
 
-6. What just happened?  If the test was 'successful', a rogue script executed during the deserialzation process.  This is an example of a system command can be executed.
+7. What just happened?  If the test was 'successful', a rogue script executed during the deserialzation process.  This is an example of a system command can be executed.
 
-7. Now change the policy.  Edit my-java.policy, comment out the permission to allow the script to execute:
+8. Now change the policy.  Edit my-java.policy, comment out the permission to allow the script to execute:
 
  ```
  grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
@@ -65,7 +94,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  //permission java.io.FilePermission "./src/main/resources/hacker-script.sh", "execute";
  ```
 
-8. Rerun the program and view the output:
+9. Rerun the program and view the output:
 
  ```
  myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0-SNAPSHOT.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
@@ -83,7 +112,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 
  The rogue program cannot execute a system command if that specific permission hasn't been added to its codebase in the java.policy.
 
-9. Now reenable the permission in my-java.policy but remove the unix file permission to execute, rerun program.
+10. Now reenable the permission in my-java.policy but remove the unix file permission to execute, rerun program.
 
  ```
  myuser@ubuntu:~/Development/serial-exploit-sample$ chmod a-x src/main/resources/hacker-script.sh
@@ -102,11 +131,11 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 
  Now the program cannot execute the script because of common unix file permission.
 
-10. The takeway?
+11. The takeaway?
 
  Usage of the Java Security Manager and strict unix file system controls can limit the damage that can be inflicted during Java object deserialzation - specifically preventing a remote code execution vulnerability.
 
-11. Run with Java Security Manager debug enabled:
+12. Run with Java Security Manager debug enabled:
 
  ```
  mvn clean install
