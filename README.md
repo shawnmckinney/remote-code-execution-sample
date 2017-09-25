@@ -30,9 +30,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  git clone https://github.com/shawnmckinney/serial-exploit-sample.git
  ```
 
-2. edit my-java.policy file
-
- * Point the codebase to the root folder of where you installed the project source:
+2. edit my-java.policy file, point to project source folder:
 
  ```
  vi src/main/resources/my-java.policy
