@@ -23,7 +23,6 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 3. Examine the program output.
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0-SNAPSHOT.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
  Begin serial exploit test....
  Input: duke moscone center
  Serialized data is saved in myObject.ser
