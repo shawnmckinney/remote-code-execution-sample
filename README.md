@@ -16,7 +16,6 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  java -cp target/serialExploitTest-1.0-SNAPSHOT.jar
       -Djava.security.manager
       -Djava.security.policy=src/main/resources/my-java.policy
-      -Djava.security.debug="access,failure"
       -Dserial-exploit-sh=/home/smckinn/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
       com.example.App
  ```
@@ -37,15 +36,15 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 
 4. Examine the files in root folder:
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ ls -l
+ myuser@ubuntu:~/Development/serial-exploit-sample$ ls
  total 32
- -rw-rw-r-- 1 myuser myuser 1211 Sep 23 16:37 LICENSE
- -rw-rw-r-- 1 myuser myuser  107 Sep 24 20:59 myObject.ser                <--- this file is new but supposed to be there
- -rw-rw-r-- 1 myuser myuser  819 Sep 23 16:40 pom.xml
- -rw-rw-r-- 1 myuser myuser 2162 Sep 24 21:01 README.md
- drwxrwxr-x 4 myuser myuser 4096 Sep 23 16:37 src
- drwxrwxr-x 9 myuser myuser 4096 Sep 23 19:44 target
- -rw-rw-r-- 1 myuser myuser 2031 Sep 24 20:59 YouveBeenHacked             <--- this file is new but should not be here.
+ LICENSE
+ myObject.ser                <--- this file is new but supposed to be there
+ pom.xml
+ README.md
+ src
+ target
+ YouveBeenHacked             <--- this file is new but should not be here.
  ```
 
 5. View the contents of YouveBeenHacked:
@@ -83,7 +82,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 	at jav
  ```
 
- The rogue program cannot execute a system command if that specific permission has not been granted to the codebase.
+ The rogue program cannot execute a system command if that specific permission ha```s not been granted to the codebase.
 
 9. Now reenable the permission in my-java.policy but remove the unix file permission to execute, rerun program.
 
@@ -107,3 +106,40 @@ Example shows how to use the Java Security Manager to prevent Java serialization
 10. The takeway?
 
  Usage of the Java Security Manager and strict unix file system controls can limit the damage that can be inflicted during Java object deserialzation - specifically preventing a remote code execution vulnerability.
+
+11. Run with Java Security Manager debug enabled:
+
+ ```
+ mvn clean install
+ java -cp target/serialExploitTest-1.0-SNAPSHOT.jar
+ ...
+      -Djava.security.debug="access,failure"     <--- add this param
+      com.example.App
+ ```
+
+ and view the output:
+
+ ```
+ myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0-SNAPSHOT.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh -Djava.security.debug="access,failure" com.example.App
+ Begin serial exploit test....
+ Input: duke moscone center
+ access: access allowed ("java.io.FilePermission" "/home/myuser/Development/serial-exploit-sample/target/serialExploitTest-1.0-SNAPSHOT.jar" "read")
+ access: access allowed ("java.util.PropertyPermission" "sun.io.serialization.extendedDebugInfo" "read")
+ access: access allowed ("java.lang.RuntimePermission" "reflectionFactoryAccess")
+ access: access allowed ("java.lang.RuntimePermission" "accessDeclaredMembers")
+ access: access allowed ("java.lang.RuntimePermission" "accessDeclaredMembers")
+ access: access allowed ("java.lang.RuntimePermission" "accessDeclaredMembers")
+ ...
+ ```
+
+ There is tons of useful forensic information in this output.  Take the time to understand all of the system and file commands your program is invoking. It will help you understand the req's to secure it.
+
+ 12. One more thing.  The JSM is not a perfect solution.  There are caveats.  For example for parsing data using standard parsers, you will have to add this:
+
+ ```
+ permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+ ```
+
+ Which opens a set of vulnerabilities in your program.  Use the system security facilities like Java's Security Manager, and other operating system facilities like Unix file security to lock it back down.
+
+
