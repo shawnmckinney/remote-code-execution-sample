@@ -16,7 +16,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  java -cp target/serialExploitTest-1.0-SNAPSHOT.jar
       -Djava.security.manager
       -Djava.security.policy=src/main/resources/my-java.policy
-      -Dserial-exploit-sh=/home/smckinn/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
+      -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
       com.example.App
  ```
 
