@@ -3,12 +3,12 @@ Example shows how to use the Java Security Manager to prevent serialization expl
 
 ## Intro to the Problem
 
- * The Problem, Equifax Breach, 143 million Americans’ personal info, including names, addresses, dates of birth and SSNs compromised.
- * Only a veneer of security in place.
+ * The Problem:  Equifax Breach, 143 million Americans’ personal info, including names, addresses, dates of birth and SSNs compromised.
+ * Only a veneer of security was in place.
 
 ## The Exploit
 
- * The vulnerability was Apache Struts, CVE-2017.
+ * The vulnerability *Apache Struts, CVE-2017*.
  * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
 
 ## How Does It Work?
@@ -24,13 +24,13 @@ Example shows how to use the Java Security Manager to prevent serialization expl
 
 ## Instructions
 
-1. Clone the serial-exploit-sample
+1. Clone the *serial-exploit-sample*
 
  ```
  git clone https://github.com/shawnmckinney/serial-exploit-sample.git
  ```
 
-2. Edit my-java.policy file, point to project source folder:
+2. Edit *my-java.policy* file, point to project source folder:
 
  ```
  vi src/main/resources/my-java.policy
@@ -38,7 +38,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
  ```
 
- For example, if you cloned into '/home/myuser/Development', it would look like this:
+ For example, if you cloned into */home/myuser/Development*, it would look like this:
 
  ```
  grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
@@ -49,7 +49,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  grant codeBase "file:/home/myuser/Development/serial-exploit-sample/-" {
  ```
 
-3. Build and run the test program.  Make sure the -Dserial-exploit-sh points to the correct folder on your machine:
+3. Build and run the test program.  Make sure the *-Dserial-exploit-sh* points to the correct folder on your machine:
 
  ```
  mvn clean install
@@ -86,7 +86,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  YouveBeenHacked             <--- this file is new but should not be here.
  ```
 
-6. View the contents of YouveBeenHacked:
+6. View the contents of *YouveBeenHacked*:
 
  ```
  myuser@ubuntu:~/Development/serial-exploit-sample$ cat YouveBeenHacked
