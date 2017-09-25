@@ -95,7 +95,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  ...
  ```
 
-7. What just happened?  If the test was 'successful', a rogue script executed during the deserialization and copied /etc/passwd to its file. This is an example of how a system command can be executed during that operation.
+7. What just happened?  If the test was *successful*, a rogue script executed and copied the contents of /etc/passwd to its file *YouveBeenHacked*. An example of how a system command can be executed during that operation.
 
 8. Now change the policy.  Edit my-java.policy, comment out the permission to allow the script to execute:
 
