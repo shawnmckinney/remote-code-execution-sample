@@ -35,6 +35,8 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  * Point the codebase to the root folder of where you installed the project source:
 
  ```
+ vi src/main/resources/my-java.policy
+ ...
  grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
  ```
 
