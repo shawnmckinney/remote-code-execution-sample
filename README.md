@@ -176,9 +176,8 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  13. To run inside IDE (optional) - if you are running inside of an integrated development environment like eclipse, netbeans or intellij, add additional codebase to my-java.policy:
 
  ```
- // Optionally, If running from an IDE, gets configured something like this.... (for intellij):
+ // Optional, If running this sample inside an IDE, it gets configured something like this.... (for intellij):
  grant codeBase "file:${user.home}/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
-   //permission java.security.AllPermission;
    permission java.util.PropertyPermission "*", "read";
    permission java.lang.RuntimePermission "*";
    permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
@@ -187,7 +186,6 @@ Example shows how to use the Java Security Manager to prevent serialization expl
    permission java.net.SocketPermission "localhost:*", "listen,resolve";
    permission java.io.FilePermission "<<ALL FILES>>", "execute";
  };
-
  ```
 
  14. Parting thoughts.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
