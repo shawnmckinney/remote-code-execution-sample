@@ -158,7 +158,7 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  ...
  ```
 
- There is tons of useful forensic information in this output.  Take the time to understand all of the system and file commands your program is invoking. It will help you understand the req's to secure it.
+ There are tons of useful forensic information in this output.  Take the time to understand all of the system and file commands your program is invoking. It will help you understand the req's to secure it.
 
  12. One more thing.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
 
