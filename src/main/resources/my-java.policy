@@ -19,7 +19,7 @@ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
 };
 
 // Optional: If running from IDE, gets configured here...
-grant codeBase "file:/home/smckinn/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
+grant codeBase "file:/home/myuser/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
   //permission java.security.AllPermission;
   permission java.util.PropertyPermission "*", "read";
   permission java.lang.RuntimePermission "*";
