@@ -38,6 +38,17 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
  ```
 
+ For example, if you cloned into '/home/myuser/projects', it would look like this:
+
+ ```
+ grant codeBase "file:${user.home}/projects/serial-exploit-sample/-" {
+ ```
+
+ Of course depends on the user's home under which the java program runs. If you're not sure, use an absolute path:
+ ```
+ grant codeBase "file:/home/myuser/projects/serial-exploit-sample/-" {
+ ```
+
 3. Build and run the test program.  Make sure the -Dserial-exploit-sh points to the correct folder on your machine:
 
  ```
