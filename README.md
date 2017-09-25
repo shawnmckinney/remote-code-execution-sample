@@ -1,5 +1,5 @@
 # serial-exploit-sample
-Example shows how to use the Java Security Manager to prevent Java serialization exploits.
+Example shows how to use the Java Security Manager to prevent serialization exploits.
 
 ## Intro to the Problem
 
