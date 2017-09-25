@@ -154,20 +154,17 @@ Example shows how to use the Java Security Manager to prevent Java serialization
  access: access allowed ("java.io.FilePermission" "/home/myuser/Development/serial-exploit-sample/target/serialExploitTest-1.0-SNAPSHOT.jar" "read")
  access: access allowed ("java.util.PropertyPermission" "sun.io.serialization.extendedDebugInfo" "read")
  access: access allowed ("java.lang.RuntimePermission" "reflectionFactoryAccess")
- access: access allowed ("java.lang.RuntimePermission" "accessDeclaredMembers")
- access: access allowed ("java.lang.RuntimePermission" "accessDeclaredMembers")
- access: access allowed ("java.lang.RuntimePermission" "accessDeclaredMembers")
+ access: access allowed ("java.lang.reflect.ReflectPermission" "suppressAccessChecks")     <-- this one you should be wary of.
  ...
  ```
 
  There is tons of useful forensic information in this output.  Take the time to understand all of the system and file commands your program is invoking. It will help you understand the req's to secure it.
 
- 12. One more thing.  The JSM is not a perfect solution.  There are caveats.  For example for parsing data using standard parsers, you will have to add this:
+ 12. One more thing.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
 
  ```
  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
  ```
 
- Which opens a set of vulnerabilities in your program.  Use the system security facilities like Java's Security Manager, and other operating system facilities like Unix file security to lock it back down.
-
+ Which opens vulnerabilities in your program by breaking encapsulation barriers -- via reflection.  Unfortunately right now there's not much we can do about this.  Try to limit the damage using controls such as these.
 
