@@ -1,28 +1,28 @@
 # serial-exploit-sample
 Example shows how to use the Java Security Manager to prevent Java serialization exploits.
 
-# Intro to the Problem
+## Intro to the Problem
 
  * The Problem, Equifax Breach, 143 million Americans’ personal info, including names, addresses, dates of birth and SSNs compromised.
  * Only a veneer of security in place.
 
-# The Exploit
+## The Exploit
 
  * The vulnerability was Apache Struts, CVE-2017.
  * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
 
-# How Does It Work?
+## How Does It Work?
 
  * Input data deserialized into an executable object with privilege.
  * http://blog.diniscruz.com/2013/12/xstream
 
-# The Solution
+## The Solution
 
  * Of course you need to ensure all appropriate patches are installed to cover known defects.
  * But what about unknown defects?
  * Employ mandatory access controls like Java Security Manager to your runtime environment.
 
-# Instructions
+## Instructions
 
 1. Clone the serial-exploit-sample
 
