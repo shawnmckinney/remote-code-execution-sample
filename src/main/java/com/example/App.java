@@ -18,16 +18,30 @@ public class App
     {
         System.out.println( "Begin serial exploit test...." );
         App myApp = new App();
+
+        // Obviously out in the wild bad code won't be instantiated like this. Rather it'll be via reflection via XML parsing or file uploads.
         BadCode myObj = new BadCode();
         myObj.name = "duke";
         myObj.address = "moscone center";
         System.out.println("Input: " + myObj.name + " " + myObj.address);
+
+        // This could happen anytime and serializes the contents of rogue object to file.
         myApp.serialize( myObj );
+
+        // In a real exploit there's be resource activity here, e.g. HTTP invocations over the network or files being uploaded via a page.
+
+        // It is during this method invocation the the exploit gets triggered by this hapless application.
         myObj = myApp.deserialize();
+
         //Print the result:
         System.out.println("Result: " + myObj.name + " " + myObj.address);
     }
 
+    /**
+     * Sample of serializing an object.
+     *
+     * @param e
+     */
     public void serialize(BadCode e)
     {
         try
@@ -47,6 +61,10 @@ public class App
         }
     }
 
+    /**
+     * Sample of deserialzing an object.
+     * @return
+     */
     public BadCode deserialize()
     {
         BadCode out;
@@ -56,7 +74,7 @@ public class App
             FileInputStream fis = new FileInputStream( OBJ_LABEL );
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            //Read the object from the data stream, and convert it back to a String
+            //Read the object from the data stream, and convert it back to a String, when the exploit occurs:
             out = (BadCode )ois.readObject();
             ois.close();
         }
