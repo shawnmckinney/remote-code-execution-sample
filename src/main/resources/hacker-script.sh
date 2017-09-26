@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 # no license
-echo "You've been hacked"
+# Let's try a bit of mischief...
+message="You've been hacked"
+fileName=YouveBeenHacked
+echo $message
 echo "CLASSPATH="$CLASSPATH
-echo "You've been hacked!"  > YouveBeenHacked
-echo "USER="$USER >> YouveBeenHacked
-echo "PWD="$PWD >> YouveBeenHacked
-echo "JAVA CLASSPATH="$CLASSPATH >> YouveBeenHacked
-echo "YOUR PASSWORDS=" >> YouveBeenHacked
-cat '/etc/passwd' >> YouveBeenHacked
+echo $message'!' > $fileName
+echo "USER="$USER >> $fileName
+echo "PWD="$PWD >> $fileName
+echo "JAVA CLASSPATH="$CLASSPATH >> $fileName
+echo "YOUR PASSWORDS=" >> $fileName
+cat '/etc/passwd' >> $fileName
