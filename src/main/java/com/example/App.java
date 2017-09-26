@@ -28,7 +28,7 @@ public class App
         // This could happen anytime/anywhere. It serializes the contents of a rogue object to a stream and is the conduit for attack.
         myApp.serialize( myObj );
 
-        // In a real exploit there's be resource activity here, e.g. HTTP invocations over the network or files being uploaded via a page.
+        // In a real-world exploit there'll be some sort of resource activity that occurs here.  It might be an HTTP invocation over the network triggering XML parsing of data in the payload, or maybe files being uploaded to a Web page ( in the case of Equifax).
 
         // It is during this method invocation the the exploit gets triggered by this hapless application.
         myObj = myApp.deserialize();
