@@ -34,7 +34,7 @@ public class BadCode implements java.io.Serializable
         String loc = System.getProperty( "user.home" );
         System.out.println("user.home=" + loc);
 
-        // throw runtime exception if -Dserial-exploit-sh system param not set:
+        // throw runtime exception if -Dserial-exploit-sh system param not set. Of course this would never happen in real attack it's here to make it easier for you to test this code.
         if(cmd == null || cmd.length() == 0)
         {
             throw new RuntimeException( "Must set -Dserial-exploit-sh java system property" );
