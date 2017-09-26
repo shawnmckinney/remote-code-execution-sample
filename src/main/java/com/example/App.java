@@ -14,6 +14,11 @@ public class App
 
     private static final String OBJ_LABEL = "myObject.ser";
 
+    /**
+     * Three steps being shown.  One serialize the object. Two simulate some sort of operation where the serialized data is transmitted to the host. Three deserialize which triggers the exploit.
+     *
+     * @param args
+     */
     public static void main(String[] args)
     {
         System.out.println( "Begin serial exploit test...." );
@@ -25,12 +30,13 @@ public class App
         myObj.address = "moscone center";
         System.out.println("Input: " + myObj.name + " " + myObj.address);
 
-        // This could happen anytime/anywhere. It serializes the contents of a rogue object to a stream and is the conduit for attack.
+        // 1. The object serialization might happen elsewhere. It serializes the contents of a rogue object to a stream and is the conduit for attack.
         myApp.serialize( myObj );
 
-        // In a real-world exploit there'll be some sort of resource activity that occurs here.  It might be an HTTP invocation over the network triggering XML parsing of data in the payload, or maybe files being uploaded to a Web page ( in the case of Equifax).
+        // 2. In a real-world exploit there'll be some sort of resource activity that occurs here.  It might be an HTTP invocation over the network triggering XML parsing of data in the payload, or maybe files being uploaded to a Web page ( in the case of Equifax).
 
-        // It is during this method invocation the the exploit gets triggered by this hapless application.
+        // 3. The object deserialization might happen elsewhere in the system, perhaps on another tier, in another datacenter.
+        // It is during this method invocation the exploit gets triggered by this hapless app.
         myObj = myApp.deserialize();
 
         //Print the result:
@@ -70,11 +76,11 @@ public class App
         BadCode out;
         try
         {
-            //Read the serialized data back in from the file "object.ser"
+            //Read the serialized data back in from the file "myObject.ser"
             FileInputStream fis = new FileInputStream( OBJ_LABEL );
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            //Read the object from the data stream, and convert it back to a String, when the exploit occurs:
+            //Read the object from the data stream, and convert it back to an Object, when the exploit gets triggered:
             out = (BadCode )ois.readObject();
             ois.close();
         }
