@@ -19,13 +19,13 @@ public class App
         System.out.println( "Begin serial exploit test...." );
         App myApp = new App();
 
-        // Obviously out in the wild bad code won't be instantiated like this. Rather it'll be via reflection via XML parsing or file uploads.
+        // Obviously, out in the wild bad code won't be instantiated like this. Rather, it'll occur during reflection that is triggered within an XML parsing or file upload operation.
         BadCode myObj = new BadCode();
         myObj.name = "duke";
         myObj.address = "moscone center";
         System.out.println("Input: " + myObj.name + " " + myObj.address);
 
-        // This could happen anytime and serializes the contents of rogue object to file.
+        // This could happen anytime/anywhere. It serializes the contents of a rogue object to a stream and is the conduit for attack.
         myApp.serialize( myObj );
 
         // In a real exploit there's be resource activity here, e.g. HTTP invocations over the network or files being uploaded via a page.
