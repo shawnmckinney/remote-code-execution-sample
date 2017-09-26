@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Sample Application that demonstrates how to prevent the Java code deserialziation vulnerability that sometimes occurs inside apps that don't run inside of a security sandbox.
+ * This sample demos how to prevent the Java code deserialziation vulnerability that sometimes occurs inside apps that don't run inside of a security sandbox.
  */
 public class App
 {
