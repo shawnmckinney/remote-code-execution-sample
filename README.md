@@ -195,8 +195,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  ```
 
  * Which opens vulnerabilities in your program by breaking encapsulation barriers -- via reflection.
- * Changes coming down the pike that will help...
-   - Java 9
+ * Java 9 changes coming down the pike that will help...
    – Modularization
    – Improved encapsulation
    – Finer control over package access.
