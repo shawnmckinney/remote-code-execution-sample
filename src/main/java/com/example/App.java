@@ -15,7 +15,7 @@ public class App
     private static final String OBJ_LABEL = "myObject.ser";
 
     /**
-     * Three steps being shown.  One serialize the object. Two simulate some sort of operation where the serialized data is transmitted to the host. Three deserialize which triggers the exploit.
+     * Three steps being shown.  1. serialize the rogue object. 2. simulate some sort of operation where the serialized data is transmitted to the host. 3. deserialize obj triggering the exploit.
      *
      * @param args
      */
@@ -24,22 +24,23 @@ public class App
         System.out.println( "Begin serial exploit test...." );
         App myApp = new App();
 
-        // Obviously, out in the wild bad code won't be instantiated like this. Rather, it'll occur during reflection that is triggered within an XML parsing or file upload operation.
+        // This will occur long before the attack, on the hacker's machine.
         BadCode myObj = new BadCode();
         myObj.name = "duke";
         myObj.address = "moscone center";
         System.out.println("Input: " + myObj.name + " " + myObj.address);
 
-        // 1. The object serialization might happen elsewhere. It serializes the contents of a rogue object to a stream and is the conduit for attack.
+        // 1. Also on the hacker's machine. It serializes the contents of the rogue object (trojan horse) to a stream and will be uploaded to host (intended target) via input form or web service.
         myApp.serialize( myObj );
 
-        // 2. In a real-world exploit there'll be some sort of resource activity that occurs here.  It might be an HTTP invocation over the network triggering XML parsing of data in the payload, or maybe files being uploaded to a Web page ( in the case of Equifax).
+        // 2. In a real-world exploit there'll be some sort of resource activity where the serialized object is transmitted to the host (the trojan horse is accepted).  
+        // It might be an HTTP invocation.
 
-        // 3. The object deserialization might happen elsewhere in the system, perhaps on another tier, in another datacenter.
-        // It is during this method invocation the exploit gets triggered by this hapless app.
+        // 3. The XML data containing rogue object is parsed, instantiated, and executed on the machine being targeted.
+        // It is during the deserialize method the rogue object executes.
         myObj = myApp.deserialize();
 
-        //Print the result:
+        // The damage is done, print the contents of rogue object:
         System.out.println("Result: " + myObj.name + " " + myObj.address);
     }
 
