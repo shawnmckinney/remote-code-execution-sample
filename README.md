@@ -194,8 +194,9 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
  ```
 
- * Which opens vulnerabilities in your program by breaking encapsulation barriers -- via reflection.
- * Java 9 changes coming down the pike that will help...
-   – Modularization
-   – Improved encapsulation
-   – Finer control over package access.
+ Which opens vulnerabilities in your program by breaking encapsulation barriers -- via reflection.
+
+ Java 9 changes coming down the pike will help...
+   * Modularization
+   * Improved encapsulation
+   * Finer control over package access.
