@@ -10,6 +10,8 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
  * The vulnerability *Apache Struts, CVE-2017-5638*.
  * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
+ * ![Image1](images/The-Exploit-CVE-5638.png "The Exploit")
+ * https://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/
 
 ## How Does The Attack Work?
 
@@ -195,7 +197,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  };
  ```
 
-## Example 2 - Instructions Recomote Code Execution Exploit
+## Example 2 - Instructions Remote Code Execution Exploit
 
 1. Build and run the test program 2:
 
