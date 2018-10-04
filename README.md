@@ -1,4 +1,4 @@
-# serial-exploit-sample
+# remote-code-execution-sample
 Example shows how to use the Java Security Manager to prevent remote code execution exploits.
 
 ## Intro to the Problem
@@ -32,10 +32,10 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
 ## Exmaple 1 - Instructions Object Serialization Exploit
 
-1. Clone the *serial-exploit-sample*
+1. Clone the *remote-code-execution-sample*
 
  ```
- git clone https://github.com/shawnmckinney/serial-exploit-sample.git
+ git clone https://github.com/shawnmckinney/remote-code-execution-sample.git
  ```
 
 2. Edit *my-java.policy* file, point to project source folder:
@@ -43,28 +43,28 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  ```
  vi src/main/resources/my-java.policy
  ...
- grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
  ```
 
  For example, if you cloned into */home/myuser/Development*, it would look like this:
 
  ```
- grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
  ```
 
  Of course this all depends on the user's home dir locale, under which the java program runs. If you're not sure, use an absolute path:
  ```
- grant codeBase "file:/home/myuser/Development/serial-exploit-sample/-" {
+ grant codeBase "file:/home/myuser/Development/remote-code-execution-sample/-" {
  ```
 
-3. Build and run the test program.  Make sure the *-Dserial-exploit-sh* points to the correct folder on your machine:
+3. Build and run the test program.  Make sure the *-Dremote-code-execution-sh* points to the correct folder on your machine:
 
  ```
  mvn clean install
  java -cp target/serialExploitTest-1.0.0.jar
       -Djava.security.manager
       -Djava.security.policy=src/main/resources/my-java.policy
-      -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
+      -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh
       com.example.App
  ```
 
@@ -76,14 +76,14 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  Serialized data is saved in myObject.ser
  BadCode will now run hacker script
  user.home=/home/myuser
- execute hacker command=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
+ execute hacker command=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh
  system command has been run....
  Result: foo fighters!
  ```
 
 5. Examine the files in package:
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ ls
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ ls
  total 32
  LICENSE
  myObject.ser                <--- this file is new but supposed to be there
@@ -97,7 +97,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 6. View the contents of *YouveBeenHacked*:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ cat YouveBeenHacked
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ cat YouveBeenHacked
  root:x:0:0:root:/root:/bin/bash
  daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
  ...
@@ -110,7 +110,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  ```
  vi src/main/resources/my-java.policy
  ...
- grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
  // must specifically allow file to execute:
  //permission java.io.FilePermission "./src/main/resources/hacker-script.sh", "execute";
  ```
@@ -118,14 +118,14 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 9. Rerun the program and view the output:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh com.example.App
  Begin serial exploit test....
  Input: duke moscone center
  Serialized data is saved in myObject.ser
  BadCode will now run hacker script
  user.home=/home/myuser
- execute hacker command=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
- Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh" "execute")
+ execute hacker command=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh
+ Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh" "execute")
 	at java.security.AccessControlContext.checkPermission(AccessControlContext.java:472)
 	at java.security.AccessController.checkPermission(AccessController.java:884)
 	at jav
@@ -136,16 +136,16 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 10. Now reenable the permission in my-java.policy but remove the unix file permission to execute, rerun program.
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ chmod a-x src/main/resources/hacker-script.sh
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ chmod a-x src/main/resources/hacker-script.sh
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh com.example.App
  Begin serial exploit test....
  Input: duke moscone center
  Serialized data is saved in myObject.ser
  BadCode will now run hacker script
  user.home=/home/myuser
- execute hacker command=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
- ERROR: serialize caught IOException=java.io.IOException: Cannot run program "/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh"
- Exception in thread "main" java.lang.RuntimeException: serialize caught IOException=java.io.IOException: Cannot run program "/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh"
+ execute hacker command=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh
+ ERROR: serialize caught IOException=java.io.IOException: Cannot run program "/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh"
+ Exception in thread "main" java.lang.RuntimeException: serialize caught IOException=java.io.IOException: Cannot run program "/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh"
  	at com.example.App.deserialize(App.java:67)
  	at com.example.App.main(App.java:26)
  ```
@@ -169,10 +169,10 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  and view the output:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh -Djava.security.debug="access,failure" com.example.App
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh -Djava.security.debug="access,failure" com.example.App
  Begin serial exploit test....
  Input: duke moscone center
- access: access allowed ("java.io.FilePermission" "/home/myuser/Development/serial-exploit-sample/target/serialExploitTest-1.0.0.jar" "read")
+ access: access allowed ("java.io.FilePermission" "/home/myuser/Development/remote-code-execution-sample/target/serialExploitTest-1.0.0.jar" "read")
  access: access allowed ("java.util.PropertyPermission" "sun.io.serialization.extendedDebugInfo" "read")
  access: access allowed ("java.lang.RuntimePermission" "reflectionFactoryAccess")
  access: access allowed ("java.lang.reflect.ReflectPermission" "suppressAccessChecks")     <-- this one you should be wary of.
@@ -198,10 +198,10 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
 ## Example 2 - Instructions Recomote Code Execution Exploit
 
-1. Clone the *serial-exploit-sample*
+1. Clone the *remote-code-execution-sample*
 
  ```
- git clone https://github.com/shawnmckinney/serial-exploit-sample.git
+ git clone https://github.com/shawnmckinney/remote-code-execution-sample.git
  ```
 
 2. Edit *my-java.policy* file, point to project source folder:
@@ -209,18 +209,18 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  ```
  vi src/main/resources/my-java.policy
  ...
- grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
  ```
 
  For example, if you cloned into */home/myuser/Development*, it would look like this:
 
  ```
- grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
  ```
 
  Of course this all depends on the user's home dir locale, under which the java program runs. If you're not sure, use an absolute path:
  ```
- grant codeBase "file:/home/myuser/Development/serial-exploit-sample/-" {
+ grant codeBase "file:/home/myuser/Development/remote-code-execution-sample/-" {
  ```
 
 3. Build and run the test program:
@@ -249,7 +249,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  ```
  vi src/main/resources/my-java.policy
  ...
- grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
   // if runtime calls uname fully qualified:
   //permission java.io.FilePermission "/bin/uname", "execute";
  ```
@@ -257,7 +257,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 7. Rerun the program and view the output:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App2
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App2
  com.example.App2
  Begin runtime command test...
  Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "/bin/uname" "execute")
@@ -277,7 +277,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 8. Now, run the App3 program, which is identical to App2, except the uname is called without a fully qualified path:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
  Begin runtime command test 3...
  Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
  Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "<<ALL FILES>>" "execute")
@@ -295,7 +295,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 9. Now, enable the following permission in my-java.policy.
 
  ```
- grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
   // if runtime called without a fully qualified path:
   permission java.io.FilePermission "<<ALL FILES>>", "execute";
  ```
@@ -303,7 +303,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 10. And run the App3 test which calls uname without a fully qualified path:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
  Begin runtime command test 3...
  Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
  ```
