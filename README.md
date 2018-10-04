@@ -286,7 +286,9 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  do that in the real world.  But, why would we run our Java programs without the Java Security Manager enabled?  Running your programs without Java Security Manager
  enabled is like playing Russian Roulette.  You have not assurances the application and frameworks they're built on don't have hidden backdoors.
 
-## Parting thoughts.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
+## Parting thoughts
+
+The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
 
  ```
  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
