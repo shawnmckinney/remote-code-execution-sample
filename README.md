@@ -61,7 +61,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
  ```
  mvn clean install
- java -cp target/serialExploitTest-1.0.0.jar
+ java -cp target/remoteCodeExecutionSample-1.0.0.jar
       -Djava.security.manager
       -Djava.security.policy=src/main/resources/my-java.policy
       -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh
@@ -118,7 +118,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 9. Rerun the program and view the output:
 
  ```
- myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh com.example.App
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/remoteCodeExecutionSample-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh com.example.App
  Begin serial exploit test....
  Input: duke moscone center
  Serialized data is saved in myObject.ser
@@ -137,7 +137,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
  ```
  myuser@ubuntu:~/Development/remote-code-execution-sample$ chmod a-x src/main/resources/hacker-script.sh
- myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh com.example.App
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/remoteCodeExecutionSample-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh com.example.App
  Begin serial exploit test....
  Input: duke moscone center
  Serialized data is saved in myObject.ser
@@ -160,7 +160,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
  ```
  mvn clean install
- java -cp target/serialExploitTest-1.0.0.jar
+ java -cp target/remoteCodeExecutionSample-1.0.0.jar
  ...
       -Djava.security.debug="access,failure"     <--- add this param
       com.example.App
@@ -169,10 +169,10 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  and view the output:
 
  ```
- myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh -Djava.security.debug="access,failure" com.example.App
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/remoteCodeExecutionSample-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dremote-code-execution-sh=/home/myuser/Development/remote-code-execution-sample/src/main/resources/hacker-script.sh -Djava.security.debug="access,failure" com.example.App
  Begin serial exploit test....
  Input: duke moscone center
- access: access allowed ("java.io.FilePermission" "/home/myuser/Development/remote-code-execution-sample/target/serialExploitTest-1.0.0.jar" "read")
+ access: access allowed ("java.io.FilePermission" "/home/myuser/Development/remote-code-execution-sample/target/remoteCodeExecutionSample-1.0.0.jar" "read")
  access: access allowed ("java.util.PropertyPermission" "sun.io.serialization.extendedDebugInfo" "read")
  access: access allowed ("java.lang.RuntimePermission" "reflectionFactoryAccess")
  access: access allowed ("java.lang.reflect.ReflectPermission" "suppressAccessChecks")     <-- this one you should be wary of.
@@ -198,53 +198,28 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
 ## Example 2 - Instructions Recomote Code Execution Exploit
 
-1. Clone the *remote-code-execution-sample*
-
- ```
- git clone https://github.com/shawnmckinney/remote-code-execution-sample.git
- ```
-
-2. Edit *my-java.policy* file, point to project source folder:
-
- ```
- vi src/main/resources/my-java.policy
- ...
- grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
- ```
-
- For example, if you cloned into */home/myuser/Development*, it would look like this:
-
- ```
- grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
- ```
-
- Of course this all depends on the user's home dir locale, under which the java program runs. If you're not sure, use an absolute path:
- ```
- grant codeBase "file:/home/myuser/Development/remote-code-execution-sample/-" {
- ```
-
-3. Build and run the test program:
+1. Build and run the test program 2:
 
  ```
  mvn clean install
- java -cp target/serialExploitTest-1.0.0.jar
+ java -cp target/remoteCodeExecutionSample-1.0.0.jar
       -Djava.security.manager
       -Djava.security.policy=src/main/resources/my-java.policy
       com.example.App2
  ```
 
-4. Examine the program output.
+2. Examine the program output.
 
  ```
  Begin runtime command test...
  Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
  ```
 
-5. What just happened?  If the test was *successful*, the test program was able to call the Linux runtime with a 'uname' command.  This rather benign example illustrates
+3. What just happened?  If the test was *successful*, the test program was able to call the Linux runtime with a 'uname' command.  This rather benign example illustrates
  what happen during a remote code execution (RCE) attack.  The caller tricks the program into executing an expression which then invokes the Java runtime.
 
 
-6. Now change the policy.  Edit my-java.policy, comment out the permission to allow the script to execute:
+4. Now change the policy.  Edit my-java.policy, comment out the permission to allow the script to execute:
 
  ```
  vi src/main/resources/my-java.policy
@@ -254,10 +229,10 @@ Example shows how to use the Java Security Manager to prevent remote code execut
   //permission java.io.FilePermission "/bin/uname", "execute";
  ```
 
-7. Rerun the program and view the output:
+5. Rerun the program and view the output:
 
  ```
- myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App2
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/remoteCodeExecutionSample-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App2
  com.example.App2
  Begin runtime command test...
  Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "/bin/uname" "execute")
@@ -274,10 +249,10 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
  The rogue program cannot execute a system command if that specific permission hasn't been added to its codebase in the java.policy.
 
-8. Now, run the App3 program, which is identical to App2, except the uname is called without a fully qualified path:
+6. Now, run the App3 program, which is identical to App2, except the uname is called without a fully qualified path:
 
  ```
- myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/remoteCodeExecutionSample-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
  Begin runtime command test 3...
  Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
  Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "<<ALL FILES>>" "execute")
@@ -292,7 +267,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 	at com.example.App3.main(App3.java:22)
  ```
 
-9. Now, enable the following permission in my-java.policy.
+7. Now, enable the following permission in my-java.policy.
 
  ```
  grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
@@ -300,15 +275,15 @@ Example shows how to use the Java Security Manager to prevent remote code execut
   permission java.io.FilePermission "<<ALL FILES>>", "execute";
  ```
 
-10. And run the App3 test which calls uname without a fully qualified path:
+8. And run the App3 test which calls uname without a fully qualified path:
 
  ```
- myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
+ myuser@ubuntu:~/Development/remote-code-execution-sample$ java -cp target/remoteCodeExecutionSample-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
  Begin runtime command test 3...
  Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
  ```
 
-11. Now, what happened?  You've just handed the Java runtime permission to execute any file on the system available to the Java process it's running under.  Of course we wouldn't
+9. Now, what happened?  You've just handed the Java runtime permission to execute any file on the system available to the Java process it's running under.  Of course we wouldn't
  do that in the real world.  But, why would we run our Java programs without the Java Security Manager enabled?  Running your programs without Java Security Manager
  enabled is like playing Russian Roulette.  You have not assurances the application and frameworks they're built on don't have hidden backdoors.
 
