@@ -6,6 +6,12 @@ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
   // must specifically allow file to execute:
   permission java.io.FilePermission "./src/main/resources/hacker-script.sh", "execute";
 
+  // if runtime calls uname fully qualified:
+  permission java.io.FilePermission "/bin/uname", "execute";
+
+  // if runtime called without a fully qualified path:
+  //permission java.io.FilePermission "<<ALL FILES>>", "execute";
+
   // Serializing to file req's write access:
   permission java.io.FilePermission "myObject.ser", "write";
 
@@ -19,7 +25,6 @@ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
 
 // Optionally, If running from an IDE, gets configured something like this...
 grant codeBase "file:${user.home}/JavaTools/idea-IC-139.659.2/lib/idea_rt.jar" {
-  //permission java.security.AllPermission;
   permission java.util.PropertyPermission "*", "read";
   permission java.lang.RuntimePermission "*";
   permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
