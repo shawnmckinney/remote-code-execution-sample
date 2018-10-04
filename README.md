@@ -10,7 +10,6 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
  * The vulnerability *Apache Struts, CVE-2-17-5638*.
  * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
- *
 
 ## How Does It Work?
 
