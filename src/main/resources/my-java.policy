@@ -1,7 +1,7 @@
-// java security policy file for the serial-exploit-sample
+// java security policy file for the remote-code-execution-sample
 
 // The sample program's permissions:
-grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
 
   // must specifically allow file to execute:
   permission java.io.FilePermission "./src/main/resources/hacker-script.sh", "execute";
@@ -19,7 +19,7 @@ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
   permission java.io.FilePermission "myObject.ser", "read";
 
   // to read the file location:
-  permission java.util.PropertyPermission "serial-exploit-sh", "read";
+  permission java.util.PropertyPermission "remote-code-execution-sh", "read";
   permission java.util.PropertyPermission "user.home", "read";
 };
 

