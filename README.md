@@ -1,5 +1,5 @@
 # serial-exploit-sample
-Example shows how to use the Java Security Manager to prevent serialization exploits.
+Example shows how to use the Java Security Manager to prevent remote code execution exploits.
 
 ## Intro to the Problem
 
@@ -8,13 +8,15 @@ Example shows how to use the Java Security Manager to prevent serialization expl
 
 ## The Exploit
 
- * The vulnerability *Apache Struts, CVE-2017*.
+ * The vulnerability *Apache Struts, CVE-2-17-5638*.
  * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
+ *
 
 ## How Does It Work?
 
- * Input data deserialized into an executable object with privilege.
- * http://blog.diniscruz.com/2013/12/xstream
+ * CVE-5638 attackers used Object-Graph Navigation Language (OGNL) expressions in message header. e.g. ${#_memberAccess["allowStaticMethodAccess"]=true, @java...Runtime@getRuntime().exec('uname -a')}
+ * Input data used in remote code execution exploit.
+ * https://www.brighttalk.com/webcast/13983/280311?utm_campaign=Twitter&utm_source=brighttalk-sharing&utm_medium=web
 
 ## The Solution
 
@@ -22,7 +24,13 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  * But what about unknown defects?
  * Employ mandatory access controls like Java Security Manager to your runtime environment.
 
-## Instructions
+## Explanation of the code samples
+
+ There are many ways in which a Java Remote Code Execution (RCE) exploit can occur.  One, is during object deserialization, covered by Example #1.  Another is
+ when the attacker tricks the Java runtime into executing a system command, via an expression language, like Object-Graph Navigation Language (OGNL), which was
+ the attack vector in the Equifax breach (CVE-5638).  Example #2 covers this scenario.
+
+## Exmaple 1 - Instructions Object Serialization Exploit
 
 1. Clone the *serial-exploit-sample*
 
@@ -53,7 +61,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
 
  ```
  mvn clean install
- java -cp target/serialExploitTest-1.0-SNAPSHOT.jar
+ java -cp target/serialExploitTest-1.0.0.jar
       -Djava.security.manager
       -Djava.security.policy=src/main/resources/my-java.policy
       -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh
@@ -110,7 +118,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
 9. Rerun the program and view the output:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0-SNAPSHOT.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
+ myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
  Begin serial exploit test....
  Input: duke moscone center
  Serialized data is saved in myObject.ser
@@ -129,7 +137,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
 
  ```
  myuser@ubuntu:~/Development/serial-exploit-sample$ chmod a-x src/main/resources/hacker-script.sh
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0-SNAPSHOT.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
+ myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh com.example.App
  Begin serial exploit test....
  Input: duke moscone center
  Serialized data is saved in myObject.ser
@@ -152,7 +160,7 @@ Example shows how to use the Java Security Manager to prevent serialization expl
 
  ```
  mvn clean install
- java -cp target/serialExploitTest-1.0-SNAPSHOT.jar
+ java -cp target/serialExploitTest-1.0.0.jar
  ...
       -Djava.security.debug="access,failure"     <--- add this param
       com.example.App
@@ -161,10 +169,10 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  and view the output:
 
  ```
- myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0-SNAPSHOT.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh -Djava.security.debug="access,failure" com.example.App
+ myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy -Dserial-exploit-sh=/home/myuser/Development/serial-exploit-sample/src/main/resources/hacker-script.sh -Djava.security.debug="access,failure" com.example.App
  Begin serial exploit test....
  Input: duke moscone center
- access: access allowed ("java.io.FilePermission" "/home/myuser/Development/serial-exploit-sample/target/serialExploitTest-1.0-SNAPSHOT.jar" "read")
+ access: access allowed ("java.io.FilePermission" "/home/myuser/Development/serial-exploit-sample/target/serialExploitTest-1.0.0.jar" "read")
  access: access allowed ("java.util.PropertyPermission" "sun.io.serialization.extendedDebugInfo" "read")
  access: access allowed ("java.lang.RuntimePermission" "reflectionFactoryAccess")
  access: access allowed ("java.lang.reflect.ReflectPermission" "suppressAccessChecks")     <-- this one you should be wary of.
@@ -188,7 +196,123 @@ Example shows how to use the Java Security Manager to prevent serialization expl
  };
  ```
 
- 14. Parting thoughts.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
+## Example 2 - Instructions Recomote Code Execution Exploit
+
+1. Clone the *serial-exploit-sample*
+
+ ```
+ git clone https://github.com/shawnmckinney/serial-exploit-sample.git
+ ```
+
+2. Edit *my-java.policy* file, point to project source folder:
+
+ ```
+ vi src/main/resources/my-java.policy
+ ...
+ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ ```
+
+ For example, if you cloned into */home/myuser/Development*, it would look like this:
+
+ ```
+ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+ ```
+
+ Of course this all depends on the user's home dir locale, under which the java program runs. If you're not sure, use an absolute path:
+ ```
+ grant codeBase "file:/home/myuser/Development/serial-exploit-sample/-" {
+ ```
+
+3. Build and run the test program:
+
+ ```
+ mvn clean install
+ java -cp target/serialExploitTest-1.0.0.jar
+      -Djava.security.manager
+      -Djava.security.policy=src/main/resources/my-java.policy
+      com.example.App2
+ ```
+
+4. Examine the program output.
+
+ ```
+ Begin runtime command test...
+ Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+ ```
+
+5. What just happened?  If the test was *successful*, the test program was able to call the Linux runtime with a 'uname' command.  This rather benign example illustrates
+ what happen during a remote code execution (RCE) attack.  The caller tricks the program into executing an expression which then invokes the Java runtime.
+
+
+6. Now change the policy.  Edit my-java.policy, comment out the permission to allow the script to execute:
+
+ ```
+ vi src/main/resources/my-java.policy
+ ...
+ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+  // if runtime calls uname fully qualified:
+  //permission java.io.FilePermission "/bin/uname", "execute";
+ ```
+
+7. Rerun the program and view the output:
+
+ ```
+ myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App2
+ com.example.App2
+ Begin runtime command test...
+ Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "/bin/uname" "execute")
+	at java.security.AccessControlContext.checkPermission(AccessControlContext.java:472)
+	at java.security.AccessController.checkPermission(AccessController.java:884)
+	at java.lang.SecurityManager.checkPermission(SecurityManager.java:549)
+	at java.lang.SecurityManager.checkExec(SecurityManager.java:796)
+	at java.lang.ProcessBuilder.start(ProcessBuilder.java:1018)
+	at java.lang.Runtime.exec(Runtime.java:620)
+	at java.lang.Runtime.exec(Runtime.java:450)
+	at java.lang.Runtime.exec(Runtime.java:347)
+	at com.example.App2.main(App2.java:22)
+ ```
+
+ The rogue program cannot execute a system command if that specific permission hasn't been added to its codebase in the java.policy.
+
+8. Now, run the App3 program, which is identical to App2, except the uname is called without a fully qualified path:
+
+ ```
+ myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
+ Begin runtime command test 3...
+ Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+ Exception in thread "main" java.security.AccessControlException: access denied ("java.io.FilePermission" "<<ALL FILES>>" "execute")
+	at java.security.AccessControlContext.checkPermission(AccessControlContext.java:472)
+	at java.security.AccessController.checkPermission(AccessController.java:884)
+	at java.lang.SecurityManager.checkPermission(SecurityManager.java:549)
+	at java.lang.SecurityManager.checkExec(SecurityManager.java:799)
+	at java.lang.ProcessBuilder.start(ProcessBuilder.java:1018)
+	at java.lang.Runtime.exec(Runtime.java:620)
+	at java.lang.Runtime.exec(Runtime.java:450)
+	at java.lang.Runtime.exec(Runtime.java:347)
+	at com.example.App3.main(App3.java:22)
+ ```
+
+9. Now, enable the following permission in my-java.policy.
+
+ ```
+ grant codeBase "file:${user.home}/Development/serial-exploit-sample/-" {
+  // if runtime called without a fully qualified path:
+  permission java.io.FilePermission "<<ALL FILES>>", "execute";
+ ```
+
+10. And run the App3 test which calls uname without a fully qualified path:
+
+ ```
+ myuser@ubuntu:~/Development/serial-exploit-sample$ java -cp target/serialExploitTest-1.0.0.jar -Djava.security.manager -Djava.security.policy=src/main/resources/my-java.policy com.example.App3
+ Begin runtime command test 3...
+ Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+ ```
+
+11. Now, what happened?  You've just handed the Java runtime permission to execute any file on the system available to the Java process it's running under.  Of course we wouldn't
+ do that in the real world.  But, why would we run our Java programs without the Java Security Manager enabled?  Running your programs without Java Security Manager
+ enabled is like playing Russian Roulette.  You have not assurances the application and frameworks they're built on don't have hidden backdoors.
+
+## Parting thoughts.  The Java Security Manager is not a perfect solution.  There are caveats.  For example, parsing data using standard parsers means you will have to add this permission:
 
  ```
  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
