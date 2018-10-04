@@ -8,10 +8,10 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
 ## The Exploit
 
- * The vulnerability *Apache Struts, CVE-2-17-5638*.
+ * The vulnerability *Apache Struts, CVE-2017-5638*.
  * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
 
-## How Does It Work?
+## How Does The Attack Work?
 
  * CVE-5638 attackers used Object-Graph Navigation Language (OGNL) expressions in message header. e.g. ${#_memberAccess["allowStaticMethodAccess"]=true, @java...Runtime@getRuntime().exec('uname -a')}
  * Input data used in remote code execution exploit.
