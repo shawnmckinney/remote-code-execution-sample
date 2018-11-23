@@ -284,9 +284,9 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  Linux ubuntu 3.13.0-132-generic #181-Ubuntu SMP Wed Sep 13 13:25:03 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
  ```
 
-9. Now, what happened?  You've just handed the Java runtime permission to execute any file on the system available to the Java process it's running under.  Of course we wouldn't
- do that in the real world.  But, why would we run our Java programs without the Java Security Manager enabled?  Running your programs without Java Security Manager
- enabled is like playing Russian Roulette.  You have not assurances the application and frameworks they're built on don't have hidden backdoors.
+9. Now, what happened?  We've just handed the Java runtime permission to execute any file on the system available to the Java process it's running under.  Of course we wouldn't
+ do that in the real world.  Running without Java Security Manager
+ enabled is like rolling the dice with the safety and security of the system.  We'll never be 100% certain any given application, and all of its dependencies, are free of (undiscovered) vulnerabilities.
 
 ## Parting thoughts
 
