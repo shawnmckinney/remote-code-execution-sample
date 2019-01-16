@@ -31,7 +31,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
  when the attacker tricks the Java runtime into executing a system command, via an expression language, like Object-Graph Navigation Language (OGNL), which was
  the attack vector in the Equifax breach (CVE-5638).  Example #2 covers this scenario.
 
-## Exmaple 1 - Instructions Object Serialization Exploit
+## Example 1 - Instructions Object Serialization Exploit
 
 1. Clone the *remote-code-execution-sample*
 
