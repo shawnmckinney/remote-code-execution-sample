@@ -17,7 +17,7 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
  * CVE-5638 attackers used Object-Graph Navigation Language (OGNL) expressions in message header. e.g. ${#_memberAccess["allowStaticMethodAccess"]=true, @java...Runtime@getRuntime().exec('uname -a')}
  * Input data used in remote code execution exploit.
- * https://www.brighttalk.com/webcast/13983/280311?utm_campaign=Twitter&utm_source=brighttalk-sharing&utm_medium=web
+ * [Behind the Equifax Breach: A Deep Dive Into Apache Struts CVE-2017-5638](https://www.brighttalk.com/webcast/13983/280311?utm_campaign=Twitter&utm_source=brighttalk-sharing&utm_medium=web).
 
 ## The Solution
 
