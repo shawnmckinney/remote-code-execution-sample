@@ -2,7 +2,7 @@
 Example shows how to use the Java Security Manager to prevent remote code execution exploits.
 
 ## Java Security Manager
- * Due to the JEP below, the specific solution mentioned here of enabling the Java Security Manager is impracticable. However, the ideas here, i.e. employing mandatory access control techniques are still very much applicable to this problem space. 
+ * Due to the JEP below, the specific solution mentioned here of enabling the Java Security Manager is impracticable. However, its ideas, i.e. employing mandatory access control techniques are still very much applicable to this problem space. 
  * [JEP 411: Deprecate the Security Manager for Removal](https://openjdk.java.net/jeps/411)
 
 ## Intro to the Problem
