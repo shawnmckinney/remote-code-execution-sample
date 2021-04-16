@@ -7,20 +7,21 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 
 ## Intro to the Problem
 
- * The Problem:  Equifax Breach, 143 million Americans’ personal info, including names, addresses, dates of birth and SSNs compromised.
+ * Equifax Breach, 143 million Americans’ personal info, including names, addresses, dates of birth and SSNs compromised.
  * Only a veneer of security was in place.
+ * Discussed in the first eleven minutes [The Anatomy of a Secure Java Web App](https://www.youtube.com/watch?v=Fdx5Ipv6qoI&list=PLb9He4H6w875eRuh2b4ZccCxBHiZZYTeE&index=10&t=0s). 
 
 ## The Exploit
 ![Image1](images/The-Exploit-CVE-5638.png "The Exploit")
  * The vulnerability *Apache Struts, CVE-2017-5638*.
- * http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/
- * https://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/
+ * [Equifax confirms Apache Struts security flaw it failed to patch is to blame for hack](http://www.zdnet.com/article/equifax-confirms-apache-struts-flaw-it-failed-to-patch-was-to-blame-for-data-breach/).
+ * [CVE-2017-5638: Apache Struts 2 Vulnerability Leads to Remote Code Execution](https://blog.trendmicro.com/trendlabs-security-intelligence/cve-2017-5638-apache-struts-vulnerability-remote-code-execution/).
 
 ## How Does The Attack Work?
 
- * CVE-5638 attackers used Object-Graph Navigation Language (OGNL) expressions in message header. e.g. ${#_memberAccess["allowStaticMethodAccess"]=true, @java...Runtime@getRuntime().exec('uname -a')}
+ * CVE-5638 attackers used Object-Graph Navigation Language (OGNL) expressions in message header. e.g. ```${#_memberAccess["allowStaticMethodAccess"]=true, @java...Runtime@getRuntime().exec('uname -a')}```
  * Input data used in remote code execution exploit.
- * https://www.brighttalk.com/webcast/13983/280311?utm_campaign=Twitter&utm_source=brighttalk-sharing&utm_medium=web
+ * [Behind the Equifax Breach: A Deep Dive Into Apache Struts CVE-2017-5638](https://www.brighttalk.com/webcast/13983/280311?utm_campaign=Twitter&utm_source=brighttalk-sharing&utm_medium=web).
 
 ## The Solution
 
@@ -301,7 +302,7 @@ The Java Security Manager is not a perfect solution.  There are caveats.  For ex
 
  Which opens vulnerabilities in your program by breaking encapsulation barriers -- via reflection.
 
- Java 9 changes coming down the pike will help...
+ Java 9++ changes help...
    * Modularization
    * Improved encapsulation
    * Finer control over package access.
