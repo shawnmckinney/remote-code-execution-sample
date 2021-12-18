@@ -8,7 +8,6 @@ Example shows how to use the Java Security Manager to prevent remote code execut
 ## Intro to the Problem
 
  * Equifax Breach, 143 million Americans’ personal info, including names, addresses, dates of birth and SSNs compromised.
- * Only a veneer of security was in place.
  * Discussed in the first eleven minutes [The Anatomy of a Secure Java Web App](https://www.youtube.com/watch?v=Fdx5Ipv6qoI&list=PLb9He4H6w875eRuh2b4ZccCxBHiZZYTeE&index=10&t=0s). 
 
 ## The Exploit
