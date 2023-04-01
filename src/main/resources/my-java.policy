@@ -1,5 +1,5 @@
 // java security policy file for the remote-code-execution-sample
-
+// © 2023 iamfortress.net
 // The sample program's permissions:
 grant codeBase "file:${user.home}/Development/remote-code-execution-sample/-" {
 

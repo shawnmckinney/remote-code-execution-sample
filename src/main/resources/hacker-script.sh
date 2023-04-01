@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# no license
+# © 2023 iamfortress.net
 # Let's try a bit of mischief...
 message="You've been hacked"
 fileName=YouveBeenHacked
