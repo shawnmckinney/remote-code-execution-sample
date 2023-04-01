@@ -1,4 +1,4 @@
-### © 2023 iamfortress.net
+© 2023 iamfortress.net
 # remote-code-execution-sample
 Example shows how to use the Java Security Manager to prevent remote code execution exploits.
 
