@@ -39,7 +39,7 @@ public class App
         // 2. In a real-world exploit there'll be some sort of resource activity where the serialized object is transmitted to the host (the trojan horse is accepted).  
         // It might be an HTTP invocation.
 
-        // 3. The XML data containing rogue object is parsed, instantiated, and executed on the machine being targeted.
+        // 3. The data containing rogue object is parsed, instantiated, and executed on the machine being targeted.
         // It is during the deserialize method the rogue object executes.
         myObj = myApp.deserialize();
 
